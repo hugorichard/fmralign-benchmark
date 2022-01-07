@@ -20,7 +20,7 @@ from fmralign.pairwise_alignment import PairwiseAlignment
 from fmralign.alignment_methods import OptimalTransportAlignment
 from fmralignbench.surf_pairwise_alignment import SurfacePairwiseAlignment
 from fmralignbench.intra_subject_alignment import IntraSubjectAlignment
-from fastsrm import IdentifiableFastSRM
+from fastsrm.identifiable_srm import IdentifiableFastSRM
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 
 mask_gm = os.path.join(ROOT_FOLDER, 'masks', 'gm_mask_3mm.nii.gz')
