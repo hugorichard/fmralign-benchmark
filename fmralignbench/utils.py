@@ -20,7 +20,7 @@ from fmralign.pairwise_alignment import PairwiseAlignment
 from fmralign.alignment_methods import OptimalTransportAlignment
 from fmralignbench.surf_pairwise_alignment import SurfacePairwiseAlignment
 from fmralignbench.intra_subject_alignment import IntraSubjectAlignment
-from fmralignbench.fastsrm import FastSRM
+from fastsrm import IdentifiableFastSRM
 from fmralignbench.conf import ROOT_FOLDER, N_JOBS
 
 mask_gm = os.path.join(ROOT_FOLDER, 'masks', 'gm_mask_3mm.nii.gz')
@@ -188,9 +188,64 @@ def align_one_target(sources_train, sources_test, target_train, target_test, met
             aligned_target_test = masker.transform(target_test)
             aligned_sources_test = np.vstack(
                 [masker.transform(t) for t in aligned_sources_test])
+
+    elif method == "mvica":
+        from mvneuro import MultiViewICA
+        common_time = time.process_time()
+        mvica = MultiViewICA(
+            n_components=srm_components, n_iter=10000, tol=1e-5,
+        )
+        reduced_SR = np.mean(
+            mvica.fit_transform(
+                [masker.transform(t).T for t in sources_train]
+            ),
+            axis=0,
+        )
+        overhead_time = time.process_time() - common_time
+
+        fit_start = time.process_time()
+        mvica.add_subjects(
+            [masker.transform(t).T for t in [target_train]], reduced_SR
+        )
+        aligned_test = mvica.transform(
+            [
+                masker.transform(t).T
+                for t in np.hstack([sources_test, [target_test]])
+            ]
+        )
+        aligned_sources_test = np.hstack(aligned_test[:-1]).T
+        aligned_target_test = aligned_test[-1].T
+
+    elif method == "amvica":
+        from amvica.classes import AdaptiveMultiViewICA
+        common_time = time.process_time()
+        amvica = AdaptiveMultiViewICA(
+            n_components=srm_components, n_iter=10000, tol=1e-5,
+        )
+        reduced_SR = np.mean(
+            amvica.fit_transform(
+                [masker.transform(t).T for t in sources_train]
+            ),
+            axis=0,
+        )
+        overhead_time = time.process_time() - common_time
+
+        fit_start = time.process_time()
+        amvica.add_subjects(
+            [masker.transform(t).T for t in [target_train]], reduced_SR
+        )
+        aligned_test = amvica.transform(
+            [
+                masker.transform(t).T
+                for t in np.hstack([sources_test, [target_test]])
+            ]
+        )
+        aligned_sources_test = np.hstack(aligned_test[:-1]).T
+        aligned_target_test = aligned_test[-1].T
+
     elif method == "srm":
         common_time = time.process_time()
-        fastsrm = FastSRM(atlas=srm_atlas, n_components=srm_components, n_iter=1000,
+        fastsrm = IdentifiableFastSRM(n_components=srm_components, n_iter=1000,
                           n_jobs=n_jobs, aggregate="mean", temp_dir=decoding_dir)
 
         reduced_SR = fastsrm.fit_transform(
@@ -416,7 +471,7 @@ def find_method_label(method, local_align_method=None, srm_components=0,
         method_label += "_ridge_cv"
     if method == "smoothing":
         method_label += "_{:0>2d}".format(smoothing_fwhm)
-    if method in ["srm", "piecewise_srm", "mvica"]:
+    if method in ["srm", "piecewise_srm", "mvica", "amvica"]:
         if srm_components:
             method_label += "_{}".format(srm_components)
             if srm_atlas is not None:
