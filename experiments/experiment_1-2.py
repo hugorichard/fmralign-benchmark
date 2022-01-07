@@ -18,12 +18,12 @@ from fmralignbench.plot_utils import (
 warnings.filterwarnings(action="once")
 
 input_methods = [
-    "anat_inter_subject",
-    "pairwise_scaled_orthogonal",
-    "pairwise_ot_e-1",
-    "srm",
-    "intra_subject",
-    "HA",
+    # "anat_inter_subject",
+    # "pairwise_scaled_orthogonal",
+    # "pairwise_ot_e-1",
+    # "srm",
+    # "intra_subject",
+    # "HA",
     "mvica",
     "amvica",
 ]
@@ -59,18 +59,18 @@ data = fetch_ibc(data_dir=ROOT_FOLDER)
 
 ###### EXPERIMENT 2 #######
 
-# experiment_parameters = list(itertools.product(ROI_DATASETS, input_methods))
-# Parallel(n_jobs=n_pipes)(
-#     delayed(inter_subject_align_decode)(
-#         input_method,
-#         dataset_params,
-#         "schaefer",
-#         ROOT_FOLDER,
-#         n_pieces=300,
-#         n_jobs=n_jobs,
-#     )
-#     for dataset_params, input_method in experiment_parameters
-# )
+experiment_parameters = list(itertools.product(ROI_DATASETS, input_methods))
+Parallel(n_jobs=n_pipes)(
+    delayed(inter_subject_align_decode)(
+        input_method,
+        dataset_params,
+        "schaefer",
+        ROOT_FOLDER,
+        n_pieces=300,
+        n_jobs=n_jobs,
+    )
+    for dataset_params, input_method in experiment_parameters
+)
 
 ROI = True
 make_bench_figure(ROI)
