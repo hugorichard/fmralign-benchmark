@@ -332,7 +332,7 @@ def make_time_sub(ax, methods_times, positions, method_width, y_lims, cmap):
 
     ax.set_yticks([])
     ax.set_xticks([1e-1, 1, 10, 30])
-    ax.set_xticklabels([1e-1, 1, 10, 30], ["x0.1", "x1", "x10", "x30"])
+    ax.set_xticklabels(["x0.1", "x1", "x10", "x30"])
     ax.set_xlim(left=1e-2, right=40)
     ax.tick_params(
         axis="x",
