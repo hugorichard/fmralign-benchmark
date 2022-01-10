@@ -16,8 +16,12 @@ METHOD_WIDTH = .5
 METHODS_LABELS_DICT = {"anat_inter_subject": "Anatomical",
                        "intra_subject_ridge_cv": "Intra Subject",
                        "intra_subject_ridge_cv_schaefer_1000": "Intra Subject",
-                       "srm_50_basc_444": "Shared\nResponse\nModel",
-                       "srm_21_basc_444": "Shared\nResponse\nModel",
+                        "srm_26_basc_444": "Shared\nResponse\nModel",
+                        "srm_21_basc_444": "Shared\nResponse\nModel",
+                        "mvica_26": "MultiView\nICA",
+                        "mvica_21": "MultiView\nICA",
+                        "amvica2_26_basc_444": "ShICA",
+                        "amvica2_21_basc_444": "ShICA",
                        "HArad_5_sparse_3": "Searchlight\nHyperalignment",
                        "pairwise_scaled_orthogonal_schaefer_300": "Piecewise\nProcrustes",
                        "pairwise_ot_e-1_schaefer_300": "Piecewise\nOptimal\nTransport",
@@ -248,13 +252,19 @@ def fetch_dataset_roi(methods, ROI, task, root_dir, add_srm=False, surf=False):
     if task == "ibc_rsvp" and ROI:
         roi_code = "language_3mm"
         srm_ = "srm_26_basc_444"
+        mvica_ = "mvica_26_basc_444"
+        amvica_ = "amvica_26_basc_444"
     elif task == "ibc_tonotopy_cond" and ROI:
         roi_code = "audio_3mm"
         srm_ = "srm_21_basc_444"
+        mvica_ = "mvica_21_basc_444"
+        amvica_ = "amvica_21_basc_444"
     if not ROI:
         srm_ = "srm_50_basc_444"
     if add_srm:
         methods_.append(srm_)
+        methods_.append(mvica_)
+        methods_.append(amvica_)
     if surf:
         alignment_data_label = "53_tasks"
         roi_code = "fullres_fullbrain"
@@ -273,14 +283,20 @@ def make_score_diffs(datasets_list, methods, ROI, add_srm, root_dir, fit_times=T
         if task == "ibc_rsvp" and ROI:
             roi_code = "language_3mm"
             srm_ = "srm_26_basc_444"
+            mvica_ = "mvica_26_basc_444"
+            amvica_ = "amvica_26_basc_444"
         elif task == "ibc_tonotopy_cond" and ROI:
             roi_code = "audio_3mm"
             srm_ = "srm_21_basc_444"
+            mvica_ = "mvica_21_basc_444"
+            amvica_ = "amvica_21_basc_444"
         if not ROI:
             srm_ = "srm_50_basc_444"
             roi_code = "fullbrain"
         if add_srm:
             methods_.append(srm_)
+            methods_.append(mvica_)
+            methods_.append(amvica_)
         score_diffs.append(make_diff(task, methods_, roi_code,
                                      alignment_data_label, decoding_dir))
 
@@ -332,7 +348,7 @@ def make_smoothing_figure():
 def make_bench_figure(ROI):
     plt.rcParams["font.family"] = "sans-serif"
     plt.rc('font', family='Helvetica')
-    methods = ["amvica", "mvica", "anat_inter_subject", "intra_subject_ridge_cv_schaefer_1000", "HArad_5_sparse_3",
+    methods = ["anat_inter_subject", "intra_subject_ridge_cv_schaefer_1000", "HArad_5_sparse_3",
                "pairwise_scaled_orthogonal_schaefer_300", "pairwise_ot_e-1_schaefer_300"]
     score_diffs, times, methods_ = make_score_diffs(
         DATASET_LIST, methods, ROI, True, ROOT_FOLDER)
