@@ -331,7 +331,7 @@ def make_time_sub(ax, methods_times, positions, method_width, y_lims, cmap):
     ax.semilogx()
 
     ax.set_yticks([])
-    ax.set_xticks([1e-1, 1, 2, 10, 30])
+    ax.set_xticks([1e-1, 1, 10, 30])
 
     ax.xaxis.set_major_formatter(mtick.FormatStrFormatter("x%.1f"))
     ax.set_xlim(left=1e-2, right=40)
