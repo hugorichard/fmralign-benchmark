@@ -305,6 +305,7 @@ def make_score_diffs(datasets_list, methods, ROI, add_srm, root_dir, fit_times=T
         if fit_times:
             times.append(fetch_scores(
                 task, alignment_data_label, roi_code, decoding_dir, methods_[1:], return_type="fit_time"))
+    print(methods_)
     return score_diffs, times, methods_
 
 
