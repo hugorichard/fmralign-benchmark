@@ -323,6 +323,7 @@ def make_time_sub(ax, methods_times, positions, method_width, y_lims, cmap):
     ax.axvline(0, y_lims[0], y_lims[1], ls="--", c="grey", lw=2)
     ax.grid("x")
     for meth_data, position in zip(methods_times, positions):
+        print(meth_data)
         plot_one_method(
             ax, meth_data, position, method_width, cmap, median=True
         )
