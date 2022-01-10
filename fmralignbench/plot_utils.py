@@ -370,8 +370,9 @@ def make_bench_figure(ROI):
         roi_ = "ROI "
     else:
         roi_ = ""
+    x_ticks = [-0.1, -.05, 0, .05, .10, 0.2]
     make_perf_sub(ax0, swapped, positions, METHOD_WIDTH, y_lims,
-                  colors, title="{}Decoding accuracy improvement".format(roi_))
+                  colors, x_ticks=x_ticks, title="{}Decoding accuracy improvement".format(roi_))
     plt.yticks(positions, labels, fontsize=14, fontname="sans-serif")
     ax1 = plt.subplot(gs[1])
     make_time_sub(ax1, normalized_times, positions,
