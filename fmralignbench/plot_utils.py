@@ -492,7 +492,7 @@ def make_supplementary4_surface_volumic_figure():
     for meth_data, position in zip(methods_data, positions):
         plot_one_method(ax, np.asarray(meth_data),
                         position, METHOD_WIDTH, colors)
-        ax.set_xticks([-.05, 0, .05, .10])
+        ax.set_xticks([-0.1, -.05, 0, .05, .10, 0.2])
         ax.xaxis.set_major_formatter(
             mtick.PercentFormatter(xmax=1, decimals=0))
         ax.tick_params(axis="x", labelsize=14)
