@@ -370,7 +370,7 @@ def make_bench_figure(ROI):
         roi_ = "ROI "
     else:
         roi_ = ""
-    x_ticks = [-0.1, -.05, 0, .05, .10, 0.2]
+    x_ticks = [-0.2, -0.1, -.05, 0, .05, .10, 0.2, 0.3]
     make_perf_sub(ax0, swapped, positions, METHOD_WIDTH, y_lims,
                   colors, x_ticks=x_ticks, title="{}Decoding accuracy improvement".format(roi_))
     plt.yticks(positions, labels, fontsize=14, fontname="sans-serif")
