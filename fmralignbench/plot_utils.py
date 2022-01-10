@@ -305,7 +305,6 @@ def make_score_diffs(datasets_list, methods, ROI, add_srm, root_dir, fit_times=T
         if fit_times:
             times.append(fetch_scores(
                 task, alignment_data_label, roi_code, decoding_dir, methods_[1:], return_type="fit_time"))
-    print(methods_)
     return score_diffs, times, methods_
 
 
@@ -355,7 +354,7 @@ def make_bench_figure(ROI):
                "pairwise_scaled_orthogonal_schaefer_300", "pairwise_ot_e-1_schaefer_300"]
     score_diffs, times, methods_ = make_score_diffs(
         DATASET_LIST, methods, ROI, True, ROOT_FOLDER)
-    print(methods)
+    print(methods_)
     swapped = swap_two_first_axis(score_diffs)
     ref_index = methods_.index("pairwise_scaled_orthogonal_schaefer_300") - 1
     swapped_time = swap_axis_time(times)
