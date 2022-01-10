@@ -332,7 +332,7 @@ def make_smoothing_figure():
 def make_bench_figure(ROI):
     plt.rcParams["font.family"] = "sans-serif"
     plt.rc('font', family='Helvetica')
-    methods = ["anat_inter_subject", "intra_subject_ridge_cv_schaefer_1000", "HArad_5_sparse_3",
+    methods = ["amvica", "mvica", "anat_inter_subject", "intra_subject_ridge_cv_schaefer_1000", "HArad_5_sparse_3",
                "pairwise_scaled_orthogonal_schaefer_300", "pairwise_ot_e-1_schaefer_300"]
     score_diffs, times, methods_ = make_score_diffs(
         DATASET_LIST, methods, ROI, True, ROOT_FOLDER)
