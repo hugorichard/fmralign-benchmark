@@ -506,7 +506,7 @@ def make_bench_figure(ROI):
     print(methods_)
     dump(
         (score_diffs, times, methods_),
-        "/home/parietal/hugo/amvica/neuroimage/figures/plot_data.job",
+        "/home/parietal/hrichard/amvica/neuroimage/figures/plot_data.job",
     )
     swapped = swap_two_first_axis(score_diffs)
     ref_index = methods_.index("pairwise_scaled_orthogonal_schaefer_300") - 1
