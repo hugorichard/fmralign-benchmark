@@ -9,6 +9,7 @@ import numpy as np
 import csv
 from fmralignbench.utils import experiments_variables
 from fmralignbench.conf import ROOT_FOLDER
+from joblib import dump
 
 DATASET_LIST = ["ibc_rsvp", "ibc_tonotopy_cond"]
 DATASETS_LABELS = {"ibc_rsvp": "IBC RSVP", "ibc_tonotopy_cond": "IBC Sounds"}
@@ -503,6 +504,10 @@ def make_bench_figure(ROI):
         DATASET_LIST, methods, ROI, True, ROOT_FOLDER
     )
     print(methods_)
+    dump(
+        (score_diffs, times, methods_),
+        "/home/parietal/hugo/amvica/neuroimage/figures/plot_data.job",
+    )
     swapped = swap_two_first_axis(score_diffs)
     ref_index = methods_.index("pairwise_scaled_orthogonal_schaefer_300") - 1
     swapped_time = swap_axis_time(times)
